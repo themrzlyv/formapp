@@ -1,0 +1,96 @@
+@import './colors.css';
+
+* {
+    box-sizing: border-box !important;
+    text-decoration: none !important;
+    list-style: none !important;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #E8F1F2 !important;
+}
+
+a {
+    width: max-content;
+    font-weight: 500;
+    color: var(--alink-color) !important;
+    cursor: pointer !important;
+}
+
+.dropdown-item.active {
+    background-color: transparent !important;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+    background-color: transparent !important;
+}
+
+a:focus, a:active {
+    color: var(--bs-cyan) !important;
+    background-color: transparent !important;
+}
+
+button,button:focus {
+    border: none !important;
+    outline: none !important;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
+}
+
+@media(max-width: 992px){
+    .navbar-container {
+        width: 100% !important;
+        margin: auto !important;
+    }
+    .navbar-nav {
+        align-items: stretch !important;
+    }
+    .nav-item {
+        margin-left: 0 !important;
+    }
+}
+
+input,input:focus {
+    outline: none !important;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px !important;
+    border: none !important;
+}
+
+.post:hover {
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+.formCategory {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.formCategory > input {
+    font-size: 1.2em;
+    width: 17em !important;
+    margin: 0 0.5em !important;
+    border-radius: 4px;
+}
+
+.formCategory > button {
+    margin: 0 1em !important;
+}
+
+
+
+@media(max-width: 992px){
+    .formCategory {
+        width: 100%;
+        flex-direction: column !important;
+    }
+
+    .formCategory > input {
+        width: 100% !important;
+        margin: 0.5em 0 !important;
+    }
+
+    .formCategory > button {
+        width: 100%;
+    }
+}

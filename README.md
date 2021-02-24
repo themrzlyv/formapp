@@ -1,0 +1,1 @@
+MERN stack full project with typescript
