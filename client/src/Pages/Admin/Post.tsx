@@ -12,6 +12,7 @@ interface Iform {
     title: string ;
     category: string  ;
     description: string ;
+    image: string ;
 }
 
 const Post = () => {
@@ -21,7 +22,7 @@ const Post = () => {
     const categories = useSelector((state:RootStore) => state.category.categories)
     const posts = useSelector((state:RootStore) => state.posts.posts)
 
-    const [form, setform] = useState<Iform>({title: '', category: '', description: ''})
+    const [form, setform] = useState<Iform>({title: '', category: '', description: '', image: ''})
 
     const handleChange = (event:React.ChangeEvent<HTMLInputElement | HTMLSelectElement>):void => {
         setform({
@@ -32,7 +33,7 @@ const Post = () => {
 
     const handleSubmit = (event:React.FormEvent<HTMLFormElement>):void => {
         event.preventDefault()
-        if(form.title.length === 0 ||form.category.length === 0 || form.description.length === 0)
+        if(form.title.length === 0 ||form.category.length === 0 || form.description.length === 0 || form.image.length === 0)
             return addToast('Please fill all inputs', {appearance:'error',autoDismiss:true})
         dispatch(createPost(form))
         addToast(`${form.title} post is created successfully`, {appearance:'success',autoDismiss:true})
@@ -69,7 +70,7 @@ const Post = () => {
                                     <option 
                                     value={item._id} 
                                     key={item._id}>
-                                        {item.name}
+                                        {item.title}
                                     </option>
                                     ))
                                 }
@@ -97,31 +98,31 @@ const Post = () => {
                     </form>
                 </div>
                 <div className="col-lg-8 ">
-                            <table className="table align-middle">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">id</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Config</th>
+                    <table className="table align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">id</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Config</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                posts && posts.map(post => (
+                                    <tr key={post._id}>
+                                        <td>{post._id}</td>
+                                        <td>{post.title}</td>
+                                        <td>
+                                            <NavLink to={`/post/${post._id}`} 
+                                            className="btn btn-orange">
+                                                Edit
+                                            </NavLink>
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        posts && posts.map(post => (
-                                            <tr key={post._id}>
-                                                <td>{post._id}</td>
-                                                <td>{post.title}</td>
-                                                <td>
-                                                    <NavLink to={`/post/${post._id}`} 
-                                                    className="btn btn-orange">
-                                                        Edit
-                                                    </NavLink>
-                                                </td>
-                                            </tr>
-                                        ))
-                                    }
-                                </tbody>
-                            </table>
+                                ))
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

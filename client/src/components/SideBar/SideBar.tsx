@@ -56,11 +56,8 @@ const SideBar = () => {
                                     to={`/category/${category._id}`} 
                                     className='text-dark d-flex align-items-center'>
                                         <i className="fas fa-angle-right me-1"></i>
-                                        {category.name}
+                                        {category.title}
                                     </NavLink>
-                                    <span className="badge bg-red">
-                                        {category.posts.length} article
-                                    </span>
                                 </li>
                             ))
                         }

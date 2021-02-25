@@ -63,7 +63,7 @@ const PostDetail:React.FC<Iprops> = ({match}) => {
                                 </div>
                                 <h5 className="fs-6 text-gray m-0 border-bottom py-1 my-2">
                                     <i className="fas fa-box-open me-1 text-dark fs-6"></i>
-                                    {category?.name}
+                                    {category?.title}
                                 </h5>
                                 <p className="fs-6 text-dark fst-italic m-0 mb-2">
                                     <i className="far fa-comment-alt me-2 fs-6"></i>

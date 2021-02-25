@@ -12,6 +12,7 @@ interface Iform {
     title: string | undefined;
     category: string | undefined ;
     description: string | undefined;
+    image: string | undefined;
 }
 
 interface Iprops {
@@ -26,7 +27,7 @@ const AdminMode:React.FC<Iprops> = ({currentPost, currentCategory, changeEditMod
     const dispatch = useDispatch()
     const categories = useSelector((state:RootStore) => state.category.categories)
 
-    const [form, setform] = useState<Iform>({title: currentPost?.title, category: currentCategory?._id, description: currentPost?.description})
+    const [form, setform] = useState<Iform>({title: currentPost?.title, category: currentCategory?._id, description: currentPost?.description, image: ''})
 
     const handleChange = (event:React.ChangeEvent<HTMLInputElement | HTMLSelectElement>):void => {
         setform({
@@ -76,7 +77,7 @@ const AdminMode:React.FC<Iprops> = ({currentPost, currentCategory, changeEditMod
                                     <option 
                                     value={item._id} 
                                     key={item._id}>
-                                        {item.name}
+                                        {item.title}
                                     </option>
                                     ))
                                 }

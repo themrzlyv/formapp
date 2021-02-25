@@ -1,27 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import {useDispatch,useSelector} from 'react-redux'
 import { NavLink } from 'react-router-dom'
-import { CategoryDataType, SinglePostType } from '../../Global/Actions/categoryActionTypes'
-import { RootStore } from '../../Global/Store'
+import { CategoryDataType } from '../../Global/Actions/categoryActionTypes'
+import { PostDataType } from '../../Global/Actions/postActionTypes'
 import { getData } from '../../helpers/fetchData'
 
 interface Iprops {
-    item: SinglePostType
+    item: PostDataType
 }
 
 
 
 const Post:React.FC<Iprops> = ({item}) => {
-    const [category, setcategory] = useState<CategoryDataType>()
     const dispatch = useDispatch()
-
-    useEffect(() => {
-        const getCategory = async () => {
-            const result = await getData(`/category/${item.category}`)
-            setcategory(result)
-        }
-        getCategory()
-    },[item])
 
     
     return (
@@ -33,7 +24,7 @@ const Post:React.FC<Iprops> = ({item}) => {
                 </h5>
                 <h5 className="fs-6 text-gray m-0 border-bottom py-1 my-2">
                     <i className="fas fa-box-open me-1 text-dark fs-6"></i>
-                    {category?.name}
+                    {item.category}
                 </h5>
                 <p className="fs-6 text-dark fst-italic m-0 mb-2">
                     <i className="far fa-comment-alt me-2 fs-6"></i>
