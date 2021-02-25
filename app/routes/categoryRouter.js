@@ -5,7 +5,6 @@ import { Auth, getAdminAccess } from '../helpers/middlewares/Authorization.js'
 const categoryRouter = express.Router()
 
 categoryRouter.get("/", getAllCategories)
-categoryRouter.get("/posts/:id", getPostsFromSingleCategory)
 categoryRouter.get("/:id", getSingleCategory)
 categoryRouter.post("/",Auth,getAdminAccess, createCategory)
 categoryRouter.put("/:id",Auth,getAdminAccess, updateCategory)
