@@ -14,7 +14,6 @@ const Category = () => {
     const params = useParams<Iparams>()
     const {id} = params
     const categoryinfo = useSelector((state:RootStore) => state.category.category)
-    const posts = useSelector((state:RootStore) => state.category.posts)
     
     useEffect(() => {
         dispatch(getSingleCategory(id))

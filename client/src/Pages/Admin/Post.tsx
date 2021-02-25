@@ -68,7 +68,7 @@ const Post = () => {
                                 {
                                     categories && categories.map(item => (
                                     <option 
-                                    value={item._id} 
+                                    value={item.title} 
                                     key={item._id}>
                                         {item.title}
                                     </option>
