@@ -6,12 +6,14 @@ import Navi from './components/Navi/Navi'
 import { getUser } from './Global/Actions/userAction'
 import MainPages from './Pages/MainPages'
 import { getAllCategories } from './Global/Actions/categoryAction';
+import { getAllPosts } from './Global/Actions/postAction';
 
 const App:React.FC = () => {
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(getUser())
         dispatch(getAllCategories())
+        dispatch(getAllPosts())
     }, [])
     return (
         <Router>
