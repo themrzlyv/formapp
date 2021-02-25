@@ -3,20 +3,23 @@ import mongoose from 'mongoose';
 
 const PostSchema = new mongoose.Schema({
     title:{
-        type:String,
+        type:string,
         required: true,
         trim: true,
         maxlength: [36,'Description must be max 65 character']
     },
     category: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'Category'
+        type: string,
+        required: true
     },
     description:{
-        type:String,
+        type:string,
         required: true,
         maxlength: [65,'Description must be max 65 character']
+    },
+    image:{
+        type: string,
+        required: true
     }
 }, {timestamps: true})
 
