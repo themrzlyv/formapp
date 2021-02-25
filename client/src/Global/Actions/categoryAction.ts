@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 import { deleteData, getData, postData, putData} from '../../helpers/fetchData';
-import {CategoryDispatchTypes, GET_ALL_CATEGORIES,GET_SINGLE_CATEGORY,GET_POSTS_FROM_SINGLE_CATEGORY, CategoryDataType, CREATE_CATEGORY, CreateCategoryDataType, UPDATE_CATEGORY, UpdateCategoryDataType, DELETE_CATEGORY} from './categoryActionTypes'
+import {CategoryDispatchTypes, GET_ALL_CATEGORIES,GET_SINGLE_CATEGORY, CREATE_CATEGORY, CreateCategoryDataType, UPDATE_CATEGORY, UpdateCategoryDataType, DELETE_CATEGORY} from './categoryActionTypes'
 
 
 export const  getAllCategories = () => async(dispatch:Dispatch<CategoryDispatchTypes>) => {
@@ -10,14 +10,11 @@ export const  getAllCategories = () => async(dispatch:Dispatch<CategoryDispatchT
 
 
 export const getSingleCategory = (id:string) => async(dispatch:Dispatch<CategoryDispatchTypes>) => {
-    const data = await getData(`/category/${id}`)
+    const token = await getData(`/user/refresh_token`)
+    const data = await getData(`/category/${id}` , token)
     dispatch({type: GET_SINGLE_CATEGORY,payload: data})
 }
 
-export const getPostsFromSingleCategory = (id:string) => async (dispatch:Dispatch<CategoryDispatchTypes>) => {
-    const data = await getData(`/category/posts/${id}`)
-    dispatch({type: GET_POSTS_FROM_SINGLE_CATEGORY,payload: data})
-}
 
 
 export const createCategory = (data:CreateCategoryDataType) => async (dispatch:Dispatch<CategoryDispatchTypes>) => {

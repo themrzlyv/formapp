@@ -1,22 +1,13 @@
 export const GET_ALL_CATEGORIES = "GET_ALL_CATEGORIES"
 export const GET_SINGLE_CATEGORY = "GET_SINGLE_CATEGORY"
-export const GET_POSTS_FROM_SINGLE_CATEGORY = "GET_POSTS_FROM_SINGLE_CATEGORY"
 
 
 export type CategoryDataType = {
     _id: string,
-    name: string,
-    about: string,
-    posts: any []
+    title: string
 }
 
 
-export type SinglePostType = {
-    _id: string,
-    title: string,
-    category: string,
-    description: string
-}
 
 export interface GetAllCategories {
     type: typeof GET_ALL_CATEGORIES;
@@ -28,10 +19,7 @@ export interface GetSingleCategory {
     payload: CategoryDataType
 }
 
-export interface GetPostsFromSingleCategory {
-    type: typeof GET_POSTS_FROM_SINGLE_CATEGORY;
-    payload: SinglePostType []
-}
+
 
 
 // for admin access 
@@ -40,12 +28,10 @@ export const UPDATE_CATEGORY = "UPDATE_CATEGORY"
 export const DELETE_CATEGORY = "DELETE_CATEGORY"
 
 export type CreateCategoryDataType = {
-    name:string,
-    about:string
+    title:string,
 }
 export type UpdateCategoryDataType = {
-    name:string | undefined,
-    about:string | undefined
+    title:string | undefined,
 }
 
 export interface CreateCategory {
@@ -64,4 +50,4 @@ export interface DeleteCategory {
 }
 
 
-export type CategoryDispatchTypes = GetAllCategories | GetSingleCategory | GetPostsFromSingleCategory | CreateCategory | UpdateCategory | DeleteCategory
+export type CategoryDispatchTypes = GetAllCategories | GetSingleCategory | CreateCategory | UpdateCategory | DeleteCategory
