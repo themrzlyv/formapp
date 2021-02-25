@@ -8,19 +8,22 @@ export type PostDataType = {
     _id: string,
     title: string,
     category: string,
-    description: string
+    description: string,
+    image: string
 }
 
 export type UpdatePostDataType = {
     title: string | undefined,
     category: string | undefined,
-    description: string | undefined
+    description: string | undefined,
+    image: string | undefined
 }
 
 export type CreatePostDataType = {
     title: string ,
     category: string ,
-    description: string 
+    description: string,
+    image: string
 }
 
 export interface GetAllPosts {
