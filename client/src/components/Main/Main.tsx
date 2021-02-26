@@ -1,10 +1,8 @@
 import React from 'react'
 
-interface Props {
-    
-}
 
-const Main = (props: Props) => {
+
+const Main = () => {
     return (
         <div className='container shadow-m-3'>
             main component

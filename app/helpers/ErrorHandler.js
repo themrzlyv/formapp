@@ -20,8 +20,8 @@ export const loginValidator = (email,password) => {
         return "Please write correct email"
 }
 
-export const postValidator = (title,category,description) => {
-    if(!title || !description || !category)
+export const postValidator = (title,category,description,image) => {
+    if(!title || !description || !category || !image)
         return "Please fill all inputs"
     
     if(title.length > 35 || title.length < 3)

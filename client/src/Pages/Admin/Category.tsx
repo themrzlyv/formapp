@@ -8,8 +8,7 @@ import { CategoryDataType } from '../../Global/Actions/categoryActionTypes'
 
 
 interface Iform {
-    name: string ;
-    about: string ;
+    title: string ;
 }
 
 
@@ -20,7 +19,7 @@ const Category = () => {
 
     const [isEdit, setisEdit] = useState<boolean>(false)
     const [currentCategory, setcurrentCategory] = useState<CategoryDataType>()
-    const [form, setform] = useState<Iform>({name: '', about: ''})
+    const [form, setform] = useState<Iform>({title: ''})
 
     const handleChange = (event:React.ChangeEvent<HTMLInputElement>):void => {
         setform({
@@ -31,10 +30,10 @@ const Category = () => {
 
     const handleSubmit = (event:React.FormEvent<HTMLFormElement>):void => {
         event.preventDefault()
-        if(form.name.length === 0 || form.about.length === 0)
+        if(form.title.length === 0 )
             return addToast('Please fill all inputs', {appearance:'error',autoDismiss:true})
         dispatch(createCategory(form))
-        addToast(`${form.name} category is created successfully`, {appearance:'success',autoDismiss:true})
+        addToast(`${form.title} category is created successfully`, {appearance:'success',autoDismiss:true})
     }
     
     return (
@@ -49,23 +48,13 @@ const Category = () => {
                     autoComplete='off'>
                         <div className="form-floating mb-3">
                             <input
-                            name='name'
+                            name='title'
                             onChange={handleChange}
                             type="text"
                             className="form-control"
-                            id="name"
-                            placeholder="Name"/>
-                            <label htmlFor="name">Name</label>
-                        </div>
-                        <div className="form-floating mb-3">
-                            <input
-                            name='about'
-                            onChange={handleChange}
-                            type="about"
-                            className="form-control"
-                            id="about"
-                            placeholder="About"/>
-                            <label htmlFor="about">About</label>
+                            id="title"
+                            placeholder="Title"/>
+                            <label htmlFor="title">Title</label>
                         </div>
                         <div className="form-floating mb-3 d-flex">
                             <button
@@ -84,8 +73,7 @@ const Category = () => {
                                 <thead>
                                     <tr>
                                         <th scope="col">id</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Posts</th>
+                                        <th scope="col">Title</th>
                                         <th scope="col">Config</th>
                                     </tr>
                                 </thead>
@@ -94,8 +82,7 @@ const Category = () => {
                                         categories && categories.map(category => (
                                             <tr key={category?._id}>
                                                 <td>{category?._id}</td>
-                                                <td>{category?.name}</td>
-                                                <td>{category?.posts.length}</td>
+                                                <td>{category?.title}</td>
                                                 <td>
                                                     <button 
                                                     onClick={() => {

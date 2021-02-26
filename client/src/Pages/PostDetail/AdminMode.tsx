@@ -5,6 +5,7 @@ import { CategoryDataType } from '../../Global/Actions/categoryActionTypes'
 import { deletePost, updatePost } from '../../Global/Actions/postAction'
 import { PostDataType } from '../../Global/Actions/postActionTypes'
 import { RootStore } from '../../Global/Store'
+import { imageUpload } from '../../helpers/fetchData'
 
 
 
@@ -12,21 +13,22 @@ interface Iform {
     title: string | undefined;
     category: string | undefined ;
     description: string | undefined;
+    image: string | undefined  ;
 }
 
 interface Iprops {
     currentPost: PostDataType | undefined;
-    currentCategory: CategoryDataType | undefined;
     changeEditMode: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 
-const AdminMode:React.FC<Iprops> = ({currentPost, currentCategory, changeEditMode}) => {
+const AdminMode:React.FC<Iprops> = ({currentPost, changeEditMode}) => {
     const router = useRouter()
     const dispatch = useDispatch()
     const categories = useSelector((state:RootStore) => state.category.categories)
 
-    const [form, setform] = useState<Iform>({title: currentPost?.title, category: currentCategory?._id, description: currentPost?.description})
+    const [mediaurl, setmediaurl] = useState<File | null | undefined>()
+    const [form, setform] = useState<Iform>({title: currentPost?.title, category: currentPost?.category, description: currentPost?.description, image: currentPost?.image})
 
     const handleChange = (event:React.ChangeEvent<HTMLInputElement | HTMLSelectElement>):void => {
         setform({
@@ -35,9 +37,21 @@ const AdminMode:React.FC<Iprops> = ({currentPost, currentCategory, changeEditMod
         })
     }
 
-    const handleSubmit = (event:React.FormEvent<HTMLFormElement>):void => {
+    const handleMedia = (event:React.ChangeEvent<HTMLInputElement>) => {
+        setmediaurl(event.target.files?.[0])
+    }
+
+    const handleSubmit = async(event:React.FormEvent<HTMLFormElement>):Promise<void> => {
         event.preventDefault()
-        dispatch(updatePost(currentPost?._id,form))
+
+        if(mediaurl === undefined){
+            dispatch(updatePost(currentPost?._id,form))
+        } else {
+            const url = await imageUpload(mediaurl)
+            const data = {...form,image:url}
+            dispatch(updatePost(currentPost?._id,data))
+        }
+
         changeEditMode(false)
         router.push(`/post/${currentPost?._id}`)
     }
@@ -68,20 +82,37 @@ const AdminMode:React.FC<Iprops> = ({currentPost, currentCategory, changeEditMod
                         <div className="form-floating mb-3">
                             <select 
                             name='category' 
+                            defaultValue={form.category}
                             onChange={handleChange} 
                             className="form-select" 
                             id="category">
                                 {
                                     categories && categories.map(item => (
                                     <option 
-                                    value={item._id} 
+                                    value={item.title} 
                                     key={item._id}>
-                                        {item.name}
+                                        {item.title}
                                     </option>
                                     ))
                                 }
                             </select>
                             <label htmlFor="category">Category</label>
+                        </div>
+                        <div className=" mb-3">
+                            <label 
+                            htmlFor="formFile" 
+                            className="form-label">
+                                Choose image
+                            </label>
+                            <input 
+                            onChange={handleMedia}
+                            accept='image/*'
+                            className="form-control" 
+                            type="file" 
+                            id="formFile" />
+                            <img 
+                            className=' card-img mt-2 img-fluid' 
+                            src={mediaurl ? URL.createObjectURL(mediaurl): form.image}/>
                         </div>
                         <div className="form-floating mb-3">
                             <input

@@ -8,8 +8,7 @@ import {useRouter} from '../../hooks/useRouter'
 
 
 interface Iform {
-    name: string | undefined;
-    about: string | undefined;
+    title: string | undefined;
 }
 
 interface Iprops {
@@ -21,7 +20,7 @@ const EditCategory:React.FC<Iprops> = ({category , changeEditMode}) => {
     const router = useRouter()
     const {addToast} = useToasts()
     const dispatch = useDispatch()
-    const [form, setform] = useState<Iform>({name: category?.name, about: category?.about})
+    const [form, setform] = useState<Iform>({title: category?.title})
 
     const handleChange = (event:React.ChangeEvent<HTMLInputElement>):void => {
         setform({
@@ -32,7 +31,7 @@ const EditCategory:React.FC<Iprops> = ({category , changeEditMode}) => {
 
     const handleSubmit = (event:React.FormEvent<HTMLFormElement>):void => {
         event.preventDefault()
-        if(form.name?.length === 0 || form.about?.length === 0)
+        if(form.title?.length === 0)
             return addToast('Please fill all inputs', {appearance:'error',autoDismiss:true})
         dispatch(updateCategory(category?._id,form))
         changeEditMode(false)
@@ -56,25 +55,14 @@ const EditCategory:React.FC<Iprops> = ({category , changeEditMode}) => {
             autoComplete='off'>
                 <div className="form-floating mb-3">
                     <input
-                    name='name'
-                    value={form.name}
+                    name='title'
+                    value={form.title}
                     onChange={handleChange}
                     type="text"
                     className="form-control"
-                    id="name"
-                    placeholder="Name"/>
-                    <label htmlFor="name">Name</label>
-                </div>
-                <div className="form-floating mb-3">
-                    <input
-                    name='about'
-                    value={form.about}
-                    onChange={handleChange}
-                    type="about"
-                    className="form-control"
-                    id="about"
-                    placeholder="About"/>
-                    <label htmlFor="about">About</label>
+                    id="title"
+                    placeholder="Title"/>
+                    <label htmlFor="title">Title</label>
                 </div>
                 <div className="form-floating mb-3 d-flex">
                     <button

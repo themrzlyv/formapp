@@ -9,14 +9,17 @@ const PostSchema = new mongoose.Schema({
         maxlength: [36,'Description must be max 65 character']
     },
     category: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'Category'
+        type: String,
+        required: true
     },
     description:{
         type:String,
         required: true,
         maxlength: [65,'Description must be max 65 character']
+    },
+    image:{
+        type: String,
+        required: true
     }
 }, {timestamps: true})
 

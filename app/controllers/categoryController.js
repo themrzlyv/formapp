@@ -1,5 +1,4 @@
 import Category from "../models/Category.js"
-import Post from "../models/Post.js"
 
 export const getAllCategories = async (req,res) => {
     try {
@@ -10,18 +9,6 @@ export const getAllCategories = async (req,res) => {
     }
 }
 
-export const getPostsFromSingleCategory = async (req,res) => {
-    try {
-        const {id} = req.params
-
-        const category = await Category.findById({_id: id}).populate('posts')
-        if(!category) return res.status(400).json({error: "Category can not found!"})
-
-        return res.status(200).json(category.posts)
-    } catch (error) {
-        return res.status(500).json({error: error.message})
-    }
-}
 
 export const getSingleCategory = async (req,res) => {
     try {
@@ -39,9 +26,9 @@ export const getSingleCategory = async (req,res) => {
 export const createCategory = async (req,res) => {
     try {
         //get datas from request
-        const {name,about} = req.body
+        const {title} = req.body
         // creating new post
-        const category = await Category({name,about}).save()
+        const category = await Category({title}).save()
         return res.status(200).json({success: true})
     } catch (error) {
         return res.status(500).json({error: error.message})
@@ -51,9 +38,9 @@ export const createCategory = async (req,res) => {
 export const updateCategory = async (req,res) => {
     try {
         const {id} = req.params
-        const {name,about} = req.body        
+        const {title} = req.body        
 
-        const category = await Category.findByIdAndUpdate({_id: id}, {name,about},
+        const category = await Category.findByIdAndUpdate({_id: id}, {title},
             {
                 new: true,
                 runValidators: true
@@ -68,8 +55,6 @@ export const deleteCategory = async (req,res) => {
     try {
         const {id} = req.params
         const category = await Category.findByIdAndDelete({_id: id})
-
-        await Post.deleteMany({category: id})
         res.status(200).json({success: true});
     } catch (error) {
         return res.status(500).json({error: error.message})
