@@ -23,7 +23,7 @@ export type CreatePostDataType = {
     title: string ,
     category: string ,
     description: string,
-    image: string
+    image: string | Promise<string>
 }
 
 export interface GetAllPosts {

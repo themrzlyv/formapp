@@ -51,3 +51,19 @@ export const putData = async (url:RequestInfo, data: any):Promise<any> => {
     const result = await response.json()
     return result
 }
+
+
+export const imageUpload = async (mediaurl:any):Promise<string> => {
+    const data =  new FormData()
+    data.append('file',mediaurl)
+    data.append('upload_preset',"blogApp")
+    data.append('cloud_name',"themrzlyv")
+    const res = await fetch("https://api.cloudinary.com/v1_1/themrzlyv/image/upload",{
+        method:"POST",
+        body:data
+    })
+    const res2  = await res.json()
+    return res2.url
+}
+
+
