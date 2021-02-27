@@ -1,28 +1,30 @@
 import React,{useState} from 'react'
+import {Formik , Form} from 'formik'
+import * as Yup from 'yup'
 import { NavLink } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
 import { postData } from '../../helpers/fetchData'
+import TextField from '../../components/TextField/TextField';
 
 interface Iform {
-    email: String | number;
-    password: String | number;
+    email: String ;
+    password: String ;
 }
 
 const Login:React.FC = () => {
     const { addToast } = useToasts();
 
-    const [form, setform] = useState<Iform>({email: '', password: ''})
+    const validationSchema = Yup.object({
+        email: Yup.string()
+        .email('Email is invalid!')
+        .required('Required!'),
+        password: Yup.string()
+        .min(6,'Password must be min 6 character')
+        .required('Required!')
+    })
 
-    const handleChange = (event:React.ChangeEvent<HTMLInputElement>):void => {
-        setform({
-            ...form,
-            [event.target.name]:event.target.value
-        })
-    }
-
-    const handleSubmit = async (event:React.FormEvent<HTMLFormElement>):Promise<void | "/"> => {
-        event.preventDefault()
-        const result = await postData(`user/login`,form)
+    const handleSubmit = async (values:Iform):Promise<void | "/"> => {
+        const result = await postData(`user/login`,values)
         if(result.error){
             return addToast(result.error , {appearance:'error',autoDismiss: true,})
         }
@@ -40,42 +42,27 @@ const Login:React.FC = () => {
                 </div>
             </div>
             <div className='row'>
-                <div className='col-lg-5 mx-auto my-3'>
-                    <form 
-                    onSubmit={handleSubmit} 
-                    autoComplete='false'>
-                        <div className="form-floating mb-3">
-                            <input
-                            name='email'
-                            onChange={handleChange}
-                            type="text"
-                            className="form-control"
-                            id="email"
-                            placeholder="Email"/>
-                            <label htmlFor="email">Email</label>
+                <Formik
+                initialValues={{
+                    email: '',
+                    password: ''
+                }}
+                onSubmit={(values) => handleSubmit(values)}
+                validationSchema={validationSchema}
+                >
+                    {formik => (
+                        <div className="col-lg-5 mx-auto mt-2">
+                            <Form>
+                                <TextField label ="Email" name="email" type="email"/>
+                                <TextField label ="Password" name="password" type="password"/>
+                                <button className="btn btn-teal mt-3" type="submit">Login</button>
+                            </Form>
                         </div>
-                        <div className="form-floating mb-3">
-                            <input
-                            name='password'
-                            onChange={handleChange}
-                            type="password"
-                            className="form-control"
-                            id="password"
-                            placeholder="Password"/>
-                            <label htmlFor="password">Password</label>
-                        </div>
-                        <div className="form-floating mb-3 d-flex">
-                            <button
-                            className='btn-teal p-2 d-flex align-items-center '>
-                                <i className="far fa-arrow-alt-circle-right mx-1"></i>
-                                Log in
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                    )}
+                </Formik>
             </div>
             <div className="row">
-                <div className='col-lg-5 mx-auto '>
+                <div className='col-lg-5 mx-auto mt-3'>
                     <p>
                         You don't have any accound? <NavLink className='text-red' to='/register'>Signin Now</NavLink>
                     </p>

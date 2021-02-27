@@ -1,12 +1,15 @@
 import React,{useState} from 'react'
+import {Formik , Form} from 'formik'
+import * as Yup from 'yup'
 import { NavLink } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
 import { postData } from '../../helpers/fetchData'
+import TextField from '../../components/TextField/TextField';
 
 interface Iform {
-    name: string | number;
-    email: string | number;
-    password: string | number;
+    name: string ;
+    email: string ;
+    password: string ;
     github_username: string;
     github: string;
     about: string;
@@ -15,18 +18,31 @@ interface Iform {
 const Register:React.FC = () => {
     const { addToast } = useToasts();
 
-    const [form, setform] = useState<Iform>({name: '' ,email: '', password: '',github_username: '',github: '', about: ''})
+    const validationSchema = Yup.object({
+        name: Yup.string()
+        .max(15,'Name must be max 15 character')
+        .min(3,'Name must be min 3 character')
+        .required('Required!'),
+        email: Yup.string()
+        .email('Email is invalid!')
+        .required('Required!'),
+        password: Yup.string()
+        .min(6,'Password must be min 6 character')
+        .required('Required!'),
+        github_username: Yup.string()
+        .max(15,'Github Username must be max 15 character')
+        .required('Required!'),
+        github: Yup.string()
+        .max(35,'Github must be max 35 character')
+        .required('Required!'),
+        about: Yup.string()
+        .max(65,'About must be max 65 character')
+        .required('Required!'),
+    })
 
-    const handleChange = (event:React.ChangeEvent<HTMLInputElement>):void => {
-        setform({
-            ...form,
-            [event.target.name]:event.target.value
-        })
-    }
 
-    const handleSubmit = async (event:React.FormEvent<HTMLFormElement>):Promise<void | "/"> => {
-        event.preventDefault()
-        const result = await postData(`/user/register`,form)
+    const handleSubmit = async (values:Iform):Promise<void | "/"> => {
+        const result = await postData(`/user/register`,values)
         if(result.error){
             return addToast(result.error , {appearance:'error',autoDismiss: true,})
         }
@@ -44,82 +60,35 @@ const Register:React.FC = () => {
                 </div>
             </div>
             <div className='row'>
-                <div className='col-lg-5 mx-auto my-3'>
-                    <form 
-                    onSubmit={handleSubmit} 
-                    autoComplete='false'>
-                        <div className="form-floating mb-3">
-                            <input
-                            name='name'
-                            onChange={handleChange}
-                            type="text"
-                            className="form-control"
-                            id="name"
-                            placeholder="Name"/>
-                            <label htmlFor="name">Name</label>
+                <Formik
+                initialValues={{
+                    name: '',
+                    email: '',
+                    password: '',
+                    github_username: '',
+                    github: '',
+                    about: ''
+                }}
+                onSubmit={(values) => handleSubmit(values)}
+                validationSchema={validationSchema}
+                >
+                    {formik => (
+                        <div className="col-lg-5 mx-auto mt-2">
+                            <Form>
+                                <TextField label ="Name" name="name" type="text"/>
+                                <TextField label ="Email" name="email" type="email"/>
+                                <TextField label ="Password" name="password" type="password"/>
+                                <TextField label ="Github Username" name="github_username" type="text"/>
+                                <TextField label ="Github" name="github" type="text"/>
+                                <TextField label ="About" name="about" type="text"/>
+                                <button className="btn btn-teal mt-3" type="submit">Signin</button>
+                            </Form>
                         </div>
-                        <div className="form-floating mb-3">
-                            <input
-                            name='email'
-                            onChange={handleChange}
-                            type="text"
-                            className="form-control"
-                            id="email"
-                            placeholder="Email"/>
-                            <label htmlFor="email">Email</label>
-                        </div>
-                        <div className="form-floating mb-3">
-                            <input
-                            name='password'
-                            onChange={handleChange}
-                            type="password"
-                            className="form-control"
-                            id="password"
-                            placeholder="Password"/>
-                            <label htmlFor="password">Password</label>
-                        </div>
-                        <div className="form-floating mb-3">
-                            <input
-                            name='github_username'
-                            onChange={handleChange}
-                            type="text"
-                            className="form-control"
-                            id="github_username"
-                            placeholder="Github username"/>
-                            <label htmlFor="github_username">Github username</label>
-                        </div>
-                        <div className="form-floating mb-3">
-                            <input
-                            name='github'
-                            onChange={handleChange}
-                            type="text"
-                            className="form-control"
-                            id="github"
-                            placeholder="Github"/>
-                            <label htmlFor="github">Github</label>
-                        </div>
-                        <div className="form-floating mb-3">
-                            <input
-                            name='about'
-                            onChange={handleChange}
-                            type="text"
-                            className="form-control"
-                            id="about"
-                            placeholder="About"/>
-                            <label htmlFor="about">About</label>
-                        </div>
-                        <div className="form-floating mb-3 d-flex">
-                            <button
-                            className='btn-teal p-2 d-flex align-items-center '>
-                                <i className="far fa-arrow-alt-circle-right mx-1"></i>
-                                Signin
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                    )}
+                </Formik>
             </div>
             <div className="row">
-                <div className='col-lg-5 mx-auto '>
+                <div className='col-lg-5 mx-auto mt-3'>
                     <p>
                         You have already accound? <NavLink className='text-red' to='/login'>Login Now</NavLink>
                     </p>
