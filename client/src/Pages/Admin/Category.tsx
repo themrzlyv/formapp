@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
+import {Formik , Form, FormikHelpers} from 'formik'
+import * as Yup from 'yup'
 import {useToasts} from 'react-toast-notifications'
 import {useDispatch,useSelector} from 'react-redux'
 import { createCategory } from '../../Global/Actions/categoryAction'
 import { RootStore } from '../../Global/Store'
 import EditCategory from './EditCategory'
 import { CategoryDataType } from '../../Global/Actions/categoryActionTypes'
+import TextField from '../../components/TextField/TextField'
 
 
 interface Iform {
@@ -19,21 +22,17 @@ const Category = () => {
 
     const [isEdit, setisEdit] = useState<boolean>(false)
     const [currentCategory, setcurrentCategory] = useState<CategoryDataType>()
-    const [form, setform] = useState<Iform>({title: ''})
 
-    const handleChange = (event:React.ChangeEvent<HTMLInputElement>):void => {
-        setform({
-            ...form,
-            [event.target.name]:event.target.value
-        })
-    }
+    const validationSchema = Yup.object({
+        title: Yup.string()
+        .max(15,'Title must be max 15 character')
+        .required('Title is required')
+    })
 
-    const handleSubmit = (event:React.FormEvent<HTMLFormElement>):void => {
-        event.preventDefault()
-        if(form.title.length === 0 )
-            return addToast('Please fill all inputs', {appearance:'error',autoDismiss:true})
-        dispatch(createCategory(form))
-        addToast(`${form.title} category is created successfully`, {appearance:'success',autoDismiss:true})
+    const handleSubmit = (values:Iform,onSubmitProps:FormikHelpers<Iform>):void => {
+        dispatch(createCategory(values))
+        addToast(`${values.title} category is created successfully`, {appearance:'success',autoDismiss:true})
+        onSubmitProps.resetForm()
     }
     
     return (
@@ -43,27 +42,21 @@ const Category = () => {
                     <div className='py-2 my-1 '>
                         <h5 className='fw-bold m-0 fs-5 text-dark'>Create new category</h5>
                     </div>
-                    <form 
-                    onSubmit={handleSubmit} 
-                    autoComplete='off'>
-                        <div className="form-floating mb-3">
-                            <input
-                            name='title'
-                            onChange={handleChange}
-                            type="text"
-                            className="form-control"
-                            id="title"
-                            placeholder="Title"/>
-                            <label htmlFor="title">Title</label>
-                        </div>
-                        <div className="form-floating mb-3 d-flex">
-                            <button
-                            className='btn-teal p-2 d-flex align-items-center w-100 justify-content-center'>
-                                <i className="fas fa-plus me-1"></i>
-                                Create
-                            </button>
-                        </div>
-                    </form>
+                    <Formik
+                    initialValues={{
+                        title: ''
+                    }}
+                    validationSchema={validationSchema}
+                    onSubmit={(values , onSubmitProps) => handleSubmit(values,onSubmitProps)}
+                    
+                    >
+                        {formik => (
+                            <Form>
+                                <TextField label="Title" name="title" type="text"/>
+                                <button type="submit" className="btn btn-teal my-3">Add</button>
+                            </Form>
+                        )}
+                    </Formik>
                 </div>
                 <div className="col-lg-8 ">
                     {
