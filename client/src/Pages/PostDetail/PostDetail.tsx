@@ -1,20 +1,44 @@
+import { Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, createStyles, Grid, makeStyles, Theme, Typography } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import {useDispatch,useSelector} from 'react-redux'
 import { RouteComponentProps } from 'react-router-dom'
-import { CategoryDataType } from '../../Global/Actions/categoryActionTypes'
 import { getSinglePost } from '../../Global/Actions/postAction'
 import { RootStore } from '../../Global/Store'
-import { getData } from '../../helpers/fetchData'
 import AdminMode from './AdminMode'
-
+import InboxIcon from '@material-ui/icons/Inbox';
+import BuildIcon from '@material-ui/icons/Build';
+import DescriptionIcon from '@material-ui/icons/Description';
 interface Iprops extends RouteComponentProps<{id:string}> {
     
 }
 
-
+const useStyles = makeStyles((theme:Theme) =>
+    createStyles({
+        root:{
+            maxWidth: 760,
+            '& > *' : {
+                color: 'black'
+            }
+        },
+        CardAction: {
+            display: 'flex',
+            justifyContent: "flex-end"
+        },
+        typo: {
+            display: 'flex',
+            alignItems: 'center'
+        },
+        icons: {
+            marginRight: '5px'
+        }
+    })
+)
 
 
 const PostDetail:React.FC<Iprops> = ({match}) => {
+
+    const classes = useStyles()
+
     const [isAdmin, setisAdmin] = useState(false)
     const dispatch = useDispatch()
 
@@ -29,52 +53,61 @@ const PostDetail:React.FC<Iprops> = ({match}) => {
 
 
     return (
-        <div className='container'>
-            <div className="row">
-                <div className="col-lg-8 shadow-m-7 mx-auto">
-                    {
-                        isAdmin === false ? 
-                        (
-                            <div className="card  my-3">
-                                <img 
-                                    className='card-img-top img-thumbnail'
-                                    src={post?.image} alt=""/>
-                                <div className='card-body'>
-                                    <div
-                                    className='d-flex border-bottom align-items-center justify-content-between py-1'>
-                                    
-                                        <h5 className="fs-5 fw-bold text-dark m-0 card-title ">
-                                            <i className="fas fa-bullhorn me-1 fs-6"></i>
+        <Grid container justify="center" >
+            <Grid item={true}>
+                {
+                    isAdmin === false ? 
+                    (
+                        <Card className={classes.root}>
+                                {
+                                    user && user?.role === true ?
+                                    (
+                                        <CardActions className={classes.CardAction}>
+                                            <Button 
+                                            size="small" 
+                                            color="secondary" 
+                                            variant="contained"
+                                            onClick={() => setisAdmin(!isAdmin)}
+                                            >
+                                                <BuildIcon className={classes.icons} fontSize="small"/>
+                                                Edit
+                                            </Button>
+                                        </CardActions>
+                                    )
+                                    : null
+                                }
+                            <CardActionArea>
+                                <CardContent>
+                                    <Typography
+                                    gutterBottom 
+                                    variant="h5" 
+                                    component="div">
+                                        <Box fontWeight="fontWeightBold" m={1}>
                                             {post?.title}
-                                        </h5>
-                                        {
-                                            user && user?.role === true ?
-                                            (
-                                                <button
-                                                onClick={() => setisAdmin(!isAdmin)}
-                                                className='btn btn-orange'
-                                                >
-                                                    Edit
-                                                </button>
-                                            )
-                                            : null
-                                        }
-                                    </div>
-                                    <h5 className="fs-6 text-gray m-0 border-bottom py-1 my-2 card-text">
-                                        <i className="fas fa-box-open me-1 text-dark fs-6"></i>
+                                        </Box>
+                                    </Typography>
+                                    <Typography className={classes.typo} gutterBottom variant="h6" component="h4">
+                                        <InboxIcon className={classes.icons}/>
                                         {post?.category}
-                                    </h5>
-                                    <p className="fs-6 text-dark fst-italic m-0 mb-2 card-text">
-                                        <i className="far fa-comment-alt me-2 fs-6"></i>
+                                    </Typography>
+                                    <Typography className={classes.typo} variant="body2" color="textSecondary" component="p">
+                                        <DescriptionIcon className={classes.icons}/>
                                         {post?.description}
-                                    </p>
-                                </div>
-                            </div>
-                        ): <AdminMode changeEditMode={setisAdmin} currentPost={post}/>
-                    }
-                </div>
-            </div>
-        </div>
+                                    </Typography>
+                                </CardContent>
+                                <CardMedia
+                                    component="img"
+                                    alt="Post Photo"
+                                    height="450"
+                                    image={post?.image}
+                                    title={post?.title}
+                                    />
+                            </CardActionArea>
+                        </Card>
+                    ): <AdminMode changeEditMode={setisAdmin} currentPost={post}/>
+                }
+            </Grid>
+        </Grid>
     )
 }
 

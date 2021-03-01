@@ -1,3 +1,4 @@
+import { Grid } from '@material-ui/core'
 import React, { useEffect } from 'react'
 import {useDispatch,useSelector} from 'react-redux'
 import Post from '../../components/Post/Post'
@@ -13,13 +14,11 @@ const Posts = () => {
     },[])
 
     return (
-        <div className='container'>
-            <div className="row p-0">
-                {
-                    posts && posts.map(post => <Post key={post._id} item={post}/>)
-                }
-            </div>
-        </div>
+        <Grid container justify="center" spacing={4} wrap="wrap">
+            {
+                posts && posts.map(post => <Post key={post._id} item={post}/>)
+            }
+        </Grid>
     )
 }
 

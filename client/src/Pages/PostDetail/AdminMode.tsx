@@ -1,11 +1,15 @@
-import React, { useState } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import {useRouter} from '../../hooks/useRouter'
 import {useDispatch,useSelector} from 'react-redux'
-import { CategoryDataType } from '../../Global/Actions/categoryActionTypes'
 import { deletePost, updatePost } from '../../Global/Actions/postAction'
 import { PostDataType } from '../../Global/Actions/postActionTypes'
 import { RootStore } from '../../Global/Store'
 import { imageUpload } from '../../helpers/fetchData'
+import { Button, CardMedia, createStyles, FormControl, Grid, InputLabel, makeStyles, MenuItem, Paper, Select, TextField, Theme } from '@material-ui/core'
+import ArrowLeftOutlinedIcon from '@material-ui/icons/ArrowLeftOutlined';
+import DeleteIcon from '@material-ui/icons/Delete';
+import SaveAltOutlinedIcon from '@material-ui/icons/SaveAltOutlined';
+
 
 
 
@@ -21,8 +25,39 @@ interface Iprops {
     changeEditMode: React.Dispatch<React.SetStateAction<boolean>>
 }
 
+const useStyles = makeStyles((theme:Theme) =>
+    createStyles({
+        root:{
+            maxWidth: 760,
+        },
+        input: {
+            display: 'none',
+        },
+        form: {
+            display:'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            margin: '1em 0'
+        },
+        griditems: {
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            margin: '1em 0'
+        },
+        fieldWidth: {
+            width: '60%'
+        },
+        icons: {
+            marginLeft: '5px',
+            marginRight: '5px'
+        }
+    })
+)
+
 
 const AdminMode:React.FC<Iprops> = ({currentPost, changeEditMode}) => {
+    const classes = useStyles()
     const router = useRouter()
     const dispatch = useDispatch()
     const categories = useSelector((state:RootStore) => state.category.categories)
@@ -30,7 +65,7 @@ const AdminMode:React.FC<Iprops> = ({currentPost, changeEditMode}) => {
     const [mediaurl, setmediaurl] = useState<File | null | undefined>()
     const [form, setform] = useState<Iform>({title: currentPost?.title, category: currentPost?.category, description: currentPost?.description, image: currentPost?.image})
 
-    const handleChange = (event:React.ChangeEvent<HTMLInputElement | HTMLSelectElement>):void => {
+    const handleChange = (event: ChangeEvent<any>):void => {
         setform({
             ...form,
             [event.target.name]:event.target.value
@@ -62,93 +97,124 @@ const AdminMode:React.FC<Iprops> = ({currentPost, changeEditMode}) => {
     }
     
     return (
-        <div className='container'>
-            <div className="row">
-                <div className="col-lg-12 my-3">
-                    <form 
-                    onSubmit={handleSubmit}
-                    autoComplete='off'>
-                        <div className="form-floating mb-3">
-                            <input
-                            name='title'
-                            value={form.title}
+        <Grid className={classes.root} container spacing={1}>
+            <Paper>
+                <form 
+                className={classes.form}
+                onSubmit={handleSubmit}
+                autoComplete='off'>
+                    <Grid item={true} className={classes.griditems}>
+                        <TextField
+                        className={classes.fieldWidth}
+                        color="secondary"
+                        name='title'
+                        defaultValue={form.title}
+                        onChange={handleChange}
+                        label="Title"
+                        id="title"/>
+                    </Grid>
+                    
+                    <Grid item={true} className={classes.griditems}>
+                        <FormControl className={classes.fieldWidth}>
+                            <InputLabel  id="tagname">Tag Name</InputLabel>
+                            <Select
+                            style={{width: '100%'}}
+                            color="secondary"
+                            labelId="tagname"
+                            id="tagname"
+                            value={form.category}
+                            name='category'
                             onChange={handleChange}
-                            type="text"
-                            className="form-control"
-                            id="title"
-                            placeholder="Title"/>
-                            <label htmlFor="title">Title</label>
-                        </div>
-                        <div className="form-floating mb-3">
-                            <select 
-                            name='category' 
-                            defaultValue={form.category}
-                            onChange={handleChange} 
-                            className="form-select" 
-                            id="category">
+                            >
                                 {
                                     categories && categories.map(item => (
-                                    <option 
-                                    value={item.title} 
-                                    key={item._id}>
-                                        {item.title}
-                                    </option>
-                                    ))
+                                        <MenuItem
+                                        key={item._id}
+                                        value={item.title}>
+                                            {item.title}
+                                        </MenuItem>
+                                        ))
                                 }
-                            </select>
-                            <label htmlFor="category">Category</label>
-                        </div>
-                        <div className=" mb-3">
-                            <label 
-                            htmlFor="formFile" 
-                            className="form-label">
-                                Choose image
-                            </label>
-                            <input 
+                            </Select>
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item={true} className={classes.griditems}>
+                        <input
                             onChange={handleMedia}
-                            accept='image/*'
-                            className="form-control" 
-                            type="file" 
-                            id="formFile" />
-                            <img 
-                            className=' card-img mt-2 img-fluid' 
-                            src={mediaurl ? URL.createObjectURL(mediaurl): form.image}/>
-                        </div>
-                        <div className="form-floating mb-3">
-                            <input
-                            name='description'
-                            value={form.description}
-                            onChange={handleChange}
-                            type="text"
-                            className="form-control"
-                            id="description"
-                            placeholder="Description"/>
-                            <label htmlFor="descripiton">Description</label>
-                        </div>
-                        <div className="form-floating mb-3 d-flex">
-                            <button 
-                            onClick={() => changeEditMode(false)}
-                            className="btn btn-white" 
-                            data-bs-dismiss="modal">
-                                <i className="far fa-arrow-alt-circle-left "></i>
-                                Back
-                            </button>
-                            <button 
-                            onClick={handleDelete}
-                            type="button" 
-                            className="btn btn-red mx-2">
-                                <i className="fas fa-trash mx-2"></i>
-                                Remove
-                            </button>
-                            <button type="submit" className="btn btn-orange">
-                                <i className="far fa-check-circle "></i>
-                                Save
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+                            accept="image/*"
+                            className={classes.input}
+                            id="contained-button-file"
+                            multiple
+                            type="file"
+                        />
+                        <label className={classes.fieldWidth} htmlFor="contained-button-file">
+                            <Button 
+                            style={{width: '100%'}}
+                            className='bg-orange text-white'
+                            variant="contained"  
+                            component="span">
+                            Upload
+                            </Button>
+                        </label>
+                        
+                    </Grid>
+
+                    <Grid item={true} className={classes.griditems}>
+                        <CardMedia
+                        className={classes.fieldWidth}
+                        component="img"
+                        alt="Post image"
+                        height="200"
+                        image={mediaurl ? URL.createObjectURL(mediaurl): form.image}
+                        title="Post image"
+                        />
+                    </Grid>
+
+                    <Grid item={true} className={classes.griditems}>         
+                        <TextField
+                        className={classes.fieldWidth}
+                        color="secondary"
+                        name='description'
+                        defaultValue={form.description}
+                        onChange={handleChange}
+                        label="description"
+                        id="description"/>
+                    </Grid> 
+
+                    <Grid container justify="space-evenly" className={classes.griditems} >
+                        <Button 
+                        size="small"
+                        className='bg-gray text-white'
+                        variant="contained"
+                        onClick={() => changeEditMode(false)}
+                        >
+                            <ArrowLeftOutlinedIcon className={classes.icons}/>
+                            Back
+                        </Button>
+                        <Button 
+                        style={{margin:'0 0.8em'}}
+                        size="small"
+                        className='bg-red text-white'
+                        variant="contained"
+                        onClick={handleDelete}
+                        >
+                            <DeleteIcon className={classes.icons}/>
+                            Remove
+                        </Button>
+                        <Button 
+                        size="small"
+                        type="submit"
+                        className='bg-teal text-white'
+                        variant="contained"
+                        >
+                            <SaveAltOutlinedIcon className={classes.icons}/>
+                            Save
+                        </Button>
+                    </Grid>
+                </form>
+            </Paper>
+        </Grid>
     )
 }
 

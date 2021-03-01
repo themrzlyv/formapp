@@ -1,71 +1,99 @@
+import { Button, createStyles, Divider, List, ListItem, ListItemIcon, ListItemText, ListSubheader, makeStyles, Theme} from '@material-ui/core'
 import React from 'react'
 import {useDispatch,useSelector} from 'react-redux'
 import {NavLink} from 'react-router-dom'
 import { RootStore } from '../../Global/Store'
+import ApartmentIcon from '@material-ui/icons/Apartment';
+import PhoneIcon from '@material-ui/icons/Phone';
+import PublicIcon from '@material-ui/icons/Public';
+import SubdirectoryArrowRightIcon from '@material-ui/icons/SubdirectoryArrowRight';
+
+const useStyles = makeStyles((theme: Theme) => 
+    createStyles({
+        root: {
+            '& > *': {
+                color: "black"
+            }
+        },
+        subheader: {
+            display:'flex',
+            alignItems: "center"
+        },
+        typhography : {
+            marginLeft: '0.5em'
+        },
+        icons: {
+            color: theme.palette.text.primary
+        }
+    })
+)
+
 
 const SideBar = () => {
-    const dispatch = useDispatch()
+    const classes = useStyles()
     const categories = useSelector((state:RootStore) => state.category.categories)
+
+
     return (
-        <div className='container shadow-m-3'>
-            <div className="row">
-                <div className="col-lg-12">
-                    <ul className=" p-0  mt-4 mb-2">
-                        <li className="my-2 py-1 border-bottom bg-transparent">
-                            <NavLink to='/posts' className='text-dark fs-5 fw-bold d-flex align-items-center'>
-                                <i className="fas fa-archive me-2"></i>
-                                All Posts
-                            </NavLink>
-                        </li>
-                        <li className="mb-2 py-1 bg-transparent border-bottom">
-                            <NavLink to='/posts' className='text-dark fs-5 fw-bold d-flex align-items-center'>
-                                <i className="fas fa-phone-square-alt me-2"></i>
-                                Contact
-                            </NavLink>
-                        </li>
-                        <li className="mb-2 py-1 bg-transparent border-bottom">
-                            <NavLink to='/posts' className='text-dark fs-5 fw-bold d-flex align-items-center'>
-                                <i className="far fa-building me-2"></i>
-                                Company
-                            </NavLink>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div className="row">
-                <div className="col-lg-12 my-1">
-                    <button 
-                    className="btn btn-purple dropdown-toggle my-2" 
-                    type="button" 
-                    data-bs-toggle="collapse" 
-                    data-bs-target="#sideBarMenu" 
-                    aria-expanded="false" 
-                    aria-controls="sideBarMenu">
-                        <i className="fas fa-share me-1"></i>
-                        Categories
-                    </button>
-                    <ul
-                    id="sideBarMenu"
-                    className="collapse my-2">
-                        {
-                            categories && categories.map(category => (
-                                <li 
-                                key={category._id}
-                                className=" py-1 bg-transparent border-bottom d-flex align-items-center justify-content-between">
-                                    <NavLink 
-                                    to={`/category/${category._id}`} 
-                                    className='text-dark d-flex align-items-center'>
-                                        <i className="fas fa-angle-right me-1"></i>
-                                        {category.title}
-                                    </NavLink>
-                                </li>
-                            ))
-                        }
-                    </ul>
-                </div>
-            </div>
-        </div>
+        <>
+            <List
+            component="ul"
+            className={classes.root}
+            >
+                <NavLink to="/about">
+                    <ListItem button>
+                        <ListItemIcon>
+                            <ApartmentIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Company" />
+                    </ListItem>
+                </NavLink>
+                <NavLink to="/contact">
+                    <ListItem button>
+                        <ListItemIcon>
+                            <PhoneIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Contact" />
+                    </ListItem>
+                </NavLink>
+                <NavLink to="/posts">
+                    <ListItem button>
+                        <ListItemIcon>
+                            <PublicIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Explore" />
+                    </ListItem>
+                </NavLink>
+            </List>
+            <Divider variant="middle" />
+
+            <List
+            component="ul"
+            className={classes.root}
+            aria-labelledby="nested-list-subheader"
+            subheader={
+                <ListSubheader component="div" id="nested-list-subheader">
+                    <Button disabled color="primary">All Tags</Button>
+                </ListSubheader>
+            }
+            >
+                {
+                    categories && categories.map(category => (
+                        <NavLink key={category._id} to={`/category/${category._id}`}>
+                            <ListItem button>
+                                <ListItemIcon>
+                                    <SubdirectoryArrowRightIcon />
+                                </ListItemIcon>
+                                <ListItemText primary={category.title} />
+                            </ListItem>
+                        </NavLink>
+                    ))
+                }
+            </List>
+        </>
     )
 }
 
 export default SideBar
+
+

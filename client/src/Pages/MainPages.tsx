@@ -9,7 +9,6 @@ import NotFound from './NotFound/NotFound'
 import PostDetail from './PostDetail/PostDetail'
 import Posts from './Posts/Posts'
 import Register from './Register/Register'
-import Test from './test'
 
 const MainPages = () => {
     return (
@@ -21,7 +20,6 @@ const MainPages = () => {
             <Route path='/register' component={Register}/>
             <Route path='/post/:id' component={PostDetail}/>
             <Route path='/posts' component={Posts}/>
-            <Route path='/test' component={Test}/>
             <Route path='/' exact component={Home}/>
             <Route component={NotFound}/>
         </Switch>
