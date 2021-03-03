@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import {useDispatch,useSelector} from 'react-redux'
 import { RouteComponentProps } from 'react-router-dom'
-import { CategoryDataType } from '../../Global/Actions/categoryActionTypes'
 import { getSinglePost } from '../../Global/Actions/postAction'
 import { RootStore } from '../../Global/Store'
-import { getData } from '../../helpers/fetchData'
 import AdminMode from './AdminMode'
-
+import {ImBullhorn} from 'react-icons/im'
+import {GiCardboardBox} from 'react-icons/gi'
+import {BiMessageSquareMinus} from 'react-icons/bi'
+import {RiEditCircleLine} from 'react-icons/ri'
 interface Iprops extends RouteComponentProps<{id:string}> {
     
 }
@@ -29,9 +30,9 @@ const PostDetail:React.FC<Iprops> = ({match}) => {
 
 
     return (
-        <div className='container'>
+        <div className='container  '>
             <div className="row">
-                <div className="col-lg-8 shadow-m-7 mx-auto">
+                <div className="col-lg-8 bg-white shadow-m-7 my-3 mx-auto">
                     {
                         isAdmin === false ? 
                         (
@@ -44,7 +45,7 @@ const PostDetail:React.FC<Iprops> = ({match}) => {
                                     className='d-flex border-bottom align-items-center justify-content-between py-1'>
                                     
                                         <h5 className="fs-5 fw-bold text-dark m-0 card-title ">
-                                            <i className="fas fa-bullhorn me-1 fs-6"></i>
+                                            <ImBullhorn fontSize={20} className="me-2" />
                                             {post?.title}
                                         </h5>
                                         {
@@ -52,8 +53,9 @@ const PostDetail:React.FC<Iprops> = ({match}) => {
                                             (
                                                 <button
                                                 onClick={() => setisAdmin(!isAdmin)}
-                                                className='btn btn-orange'
+                                                className='btn btn-yellow text-dark d-flex align-items-center'
                                                 >
+                                                    <RiEditCircleLine fontSize={20} className="me-2"/>
                                                     Edit
                                                 </button>
                                             )
@@ -61,11 +63,11 @@ const PostDetail:React.FC<Iprops> = ({match}) => {
                                         }
                                     </div>
                                     <h5 className="fs-6 text-gray m-0 border-bottom py-1 my-2 card-text">
-                                        <i className="fas fa-box-open me-1 text-dark fs-6"></i>
+                                        <GiCardboardBox fontSize={20} className="me-2" />
                                         {post?.category}
                                     </h5>
                                     <p className="fs-6 text-dark fst-italic m-0 mb-2 card-text">
-                                        <i className="far fa-comment-alt me-2 fs-6"></i>
+                                        <BiMessageSquareMinus fontSize={20} className="me-2" />
                                         {post?.description}
                                     </p>
                                 </div>

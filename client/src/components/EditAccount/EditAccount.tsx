@@ -42,11 +42,11 @@ const EditAccount:React.FC<Iprops> = ({setisEdit}) => {
     }
 
     return (
-        <div className="container shadow-m-7 rounded">
+        <div className="container shadow-m-7 bg-white rounded">
             <div className="row">
                 <div className="col-lg-12 mt-3 mb-2">
                     <div
-                    className="h4 d-flex align-items-center justify-content-center m-0 py-2 text-orange fw-bold border-bottom">
+                    className="h4 d-flex align-items-center justify-content-center m-0 py-2 text-dark fw-bold border-bottom">
                         Edit your information
                         <i className="far fa-user-circle text-dark ms-2"></i>
                     </div>
@@ -115,12 +115,12 @@ const EditAccount:React.FC<Iprops> = ({setisEdit}) => {
                         <div className="form-floating mb-3 d-flex align-items-center ">
                             <button
                             onClick={() => setisEdit(false)}
-                            className='btn-white p-2 d-flex align-items-center me-3'>
+                            className='btn bg-light  d-flex align-items-center me-3'>
                                 <i className="far fa-arrow-alt-circle-left me-1"></i>
                                 Go Back
                             </button>
                             <button
-                            className='btn-teal p-2 d-flex align-items-center '>
+                            className='btn bg-teal text-white  d-flex align-items-center '>
                                 <i className="far fa-check-circle me-1"></i>
                                 Save
                             </button>

@@ -5,7 +5,11 @@ import { useSelector , useDispatch} from 'react-redux'
 import {NavLink} from 'react-router-dom'
 import { logoutUser } from '../../Global/Actions/userAction'
 import { RootStore } from '../../Global/Store'
-import styles from './Navi.module.scss'
+import { FiLogIn , FiLogOut } from "react-icons/fi";
+import { MdAccountCircle } from "react-icons/md";
+import { VscRemoteExplorer } from "react-icons/vsc";
+import { AiOutlineHome } from "react-icons/ai";
+import { GiStrikingArrows } from "react-icons/gi";
 
 const Navi = () => {
     const router = useRouter()
@@ -24,24 +28,20 @@ const Navi = () => {
 
     const userLink = ():JSX.Element => {
         return(
-            <li className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                {user?.name}
-                </a>
-                <ul className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <li>
-                        <NavLink className="dropdown-item text-purple" to="/account">Profile</NavLink>
-                    </li>
-                    <li>
-                        <a 
-                        onClick={logout}
-                        className="dropdown-item text-purple d-flex align-items-center">
-                            Signout
-                            <i className="fas fa-sign-out-alt ms-1"></i>
-                        </a>
-                    </li>
-                </ul>
-            </li>
+            <>
+                <li className="nav-item me-2">
+                    <NavLink className="nav-link" to="/account">
+                        <MdAccountCircle fontSize={23} />
+                    </NavLink>
+                </li>
+                <li className="nav-item me-3">
+                    <a 
+                    onClick={logout}
+                    className="nav-link d-flex align-items-center">
+                        <FiLogOut fontSize={23} />
+                    </a>
+                </li>
+            </>
         );
     }
 
@@ -49,29 +49,35 @@ const Navi = () => {
         return(
             <>
                 <li className="nav-item me-3">
-                    <NavLink to='/login' className=" nav-link">Log in</NavLink>
-                </li>
-                <li className="nav-item">
-                    <NavLink to='/register' className={`btn-white p-1 nav-link ${styles.btnSign}`}>Sign up</NavLink>
+                    <NavLink to='/login' className=" nav-link">
+                        <FiLogIn fontSize={23} />
+                    </NavLink>
                 </li>
             </>
         );
     }
 
     return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-purple shadow-m-7">
+        <nav className="navbar navbar-expand-lg navbar-light bg-primary shadow-m-8">
             <div className="container navbar-container">
-                <NavLink className="navbar-brand" to="/">Flexline</NavLink>
+                <NavLink className="navbar-brand d-flex align-items-center" to="/">
+                    <GiStrikingArrows fontSize={20} className="mx-2"/>
+                    Flexline
+                </NavLink>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                     <i className="fas fa-align-right"></i>
                 </button>
                 <div className="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
                     <ul className="navbar-nav d-flex align-items-center justify-content-center">
                         <li className="nav-item">
-                            <NavLink to='/' className="nav-link">Home</NavLink>
+                            <NavLink to='/' className="nav-link">
+                                <AiOutlineHome fontSize={23} />
+                            </NavLink>
                         </li>
                         <li className="nav-item mx-3">
-                            <NavLink to='/posts' className="nav-link">Explore</NavLink>
+                            <NavLink to='/posts' className="nav-link">
+                                <VscRemoteExplorer fontSize={23} />
+                            </NavLink>
                         </li>
                         {
                             error &&  notUser() 

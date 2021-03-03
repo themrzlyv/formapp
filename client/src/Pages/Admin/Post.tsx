@@ -52,7 +52,7 @@ const Post = () => {
     return (
         <div className='container mt-3'>
             <div className="row shadow-m-1">
-                <div className="col-lg-4">
+                <div className="col-lg-4 bg-white my-2 rounded shadow-m-4">
                     <div className='py-2 my-1 '>
                         <h5 className='fw-bold m-0 fs-5 text-dark'>Create new Post</h5>
                     </div>
@@ -117,14 +117,14 @@ const Post = () => {
                         <div className="form-floating mb-3 d-flex">
                             <button
                             type='submit'
-                            className='btn-teal p-2 d-flex align-items-center w-100 justify-content-center'>
+                            className='btn bg-teal text-white p-2 d-flex align-items-center w-100 justify-content-center'>
                                 <i className="fas fa-plus me-1"></i>
                                 Create
                             </button>
                         </div>
                     </form>
                 </div>
-                <div className="col-lg-8 ">
+                <div className="col-lg-8 bg-white my-2 rounded shadow-m-4">
                     <table className="table align-middle">
                         <thead>
                             <tr>
@@ -148,7 +148,7 @@ const Post = () => {
                                         </td>
                                         <td>
                                             <NavLink to={`/post/${post._id}`} 
-                                            className="btn btn-orange">
+                                            className="btn bg-orange shadow-m-9">
                                                 Edit
                                             </NavLink>
                                         </td>

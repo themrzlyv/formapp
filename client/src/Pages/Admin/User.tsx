@@ -25,14 +25,14 @@ const User = () => {
 
     return (
         <div className='container'>
-            <div className="row">
-                <div className="col-lg-12">
-                    <table className="table align-middle">
+            <div className="row p-0">
+                <div className="col-lg-12 p-0">
+                    <table className="table align-middle p-0 m-0">
                         <thead>
                             <tr>
                                 <th scope="col">Name</th>
                                 <th scope="col">Email</th>
-                                <th scope="col">Github username</th>
+                                <th scope="col">Github name</th>
                                 <th scope="col">Role</th>
                                 <th scope="col">Config</th>
                             </tr>
@@ -50,7 +50,7 @@ const User = () => {
                                                 (
                                                     <button
                                                     onClick={() => changeRole(user?._id)}
-                                                    className="btn btn-orange">
+                                                    className="btn bg-yellow text-white">
                                                         <i className="fas fa-headset"></i>
                                                     </button>
                                                 )
@@ -58,7 +58,7 @@ const User = () => {
                                                 (
                                                     <button 
                                                     onClick={() => changeRole(user?._id)}
-                                                    className="btn btn-orange">
+                                                    className="btn bg-yellow text-white">
                                                         <i className="fas fa-headphones-alt"></i>
                                                     </button>
                                                 )
@@ -68,7 +68,7 @@ const User = () => {
                                             <button 
                                             onClick={() => handleDelete(user?._id)}
                                             disabled={user.role}
-                                            className='btn btn-red'
+                                            className='btn bg-red text-white'
                                             >
                                                 Delete
                                             </button>

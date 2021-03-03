@@ -27,7 +27,7 @@ a {
 }
 
 a:focus, a:active {
-    color: var(--bs-cyan) !important;
+    color: rgb(206, 206, 206) !important;
     background-color: transparent !important;
 }
 
@@ -77,8 +77,8 @@ input,input:focus {
     margin: 0 1em !important;
 }
 
-.post-card {
-    width: 48% !important;
+.col-lg-5 {
+    width: 48 !important;
 }
 
 .card {

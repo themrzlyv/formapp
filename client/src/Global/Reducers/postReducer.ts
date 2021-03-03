@@ -1,8 +1,9 @@
-import { CREATE_POST, DELETE_POST, GET_ALL_POSTS, GET_SINGLE_POST, PostDataType, PostDispatchType, UPDATE_POST } from "../Actions/postActionTypes";
+import { CREATE_POST, DELETE_POST, GET_ALL_POSTS, GET_POSTS_FOR_CATEGORY, GET_SINGLE_POST, PostDataType, PostDispatchType, UPDATE_POST } from "../Actions/postActionTypes";
 
 interface Istate {
     posts?:PostDataType [];
-    post?: PostDataType
+    post?: PostDataType;
+    categorypost?: PostDataType [];
 }
 
 
@@ -15,6 +16,11 @@ export const postReducer = (state:Istate = initialState,action:PostDispatchType)
         case GET_ALL_POSTS:
             return {
                 posts:action.payload
+            }
+        case GET_POSTS_FOR_CATEGORY:
+            return {
+                ...state,
+                categorypost:action.payload
             }
         case GET_SINGLE_POST:
             return {

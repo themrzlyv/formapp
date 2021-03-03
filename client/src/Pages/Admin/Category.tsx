@@ -38,7 +38,7 @@ const Category = () => {
     return (
         <div className='container mt-3'>
             <div className="row shadow-m-1">
-                <div className="col-lg-4">
+                <div className="col-lg-4 bg-white my-2 rounded shadow-m-4">
                     <div className='py-2 my-1 '>
                         <h5 className='fw-bold m-0 fs-5 text-dark'>Create new category</h5>
                     </div>
@@ -53,12 +53,12 @@ const Category = () => {
                         {formik => (
                             <Form>
                                 <TextField label="Title" name="title" type="text"/>
-                                <button type="submit" className="btn btn-teal my-3">Add</button>
+                                <button type="submit" className="btn bg-teal my-2 text-white">Add</button>
                             </Form>
                         )}
                     </Formik>
                 </div>
-                <div className="col-lg-8 ">
+                <div className="col-lg-8 bg-white my-2 rounded shadow-m-4">
                     {
                         isEdit === false ?
                         (
@@ -82,7 +82,7 @@ const Category = () => {
                                                         setcurrentCategory(category)
                                                         setisEdit(!isEdit)
                                                     }}
-                                                    className="btn btn-orange">
+                                                    className="btn bg-orange text-white shadow-m-9">
                                                         Edit
                                                     </button>
                                                 </td>

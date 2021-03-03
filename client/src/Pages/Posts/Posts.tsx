@@ -12,12 +12,31 @@ const Posts = () => {
         dispatch(getAllPosts())
     },[])
 
+    const handleChangePage = (event:React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+        event.preventDefault()
+        dispatch(getAllPosts('',1))
+    }
+
     return (
         <div className='container'>
             <div className="row p-0">
                 {
                     posts && posts.map(post => <Post key={post._id} item={post}/>)
                 }
+            </div>
+            <div className="row">
+                <div className="col-lg-12">
+                    <nav aria-label="Page navigation example">
+                        <ul className="pagination">
+                            <li className="page-item">
+                                <a 
+                                onClick={handleChangePage}
+                                className="page-link text-black" 
+                                >Load More</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
             </div>
         </div>
     )

@@ -1,9 +1,11 @@
 import Post from '../models/Post.js'
 import { postValidator } from '../helpers/ErrorHandler.js'
+import Apifeatures from '../helpers/ApiFeatures.js'
 
 export const getAllPosts = async (req,res) => {
     try {
-        const posts = await Post.find()
+        const features = new Apifeatures(Post.find(), req.query).filtering().sorting().paginating()
+        const posts = await features.query
         return res.status(200).json(posts)
     } catch (error) {
         return res.status(500).json({error: error.message})

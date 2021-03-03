@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import {useRouter} from '../../hooks/useRouter'
 import {useDispatch,useSelector} from 'react-redux'
-import { CategoryDataType } from '../../Global/Actions/categoryActionTypes'
 import { deletePost, updatePost } from '../../Global/Actions/postAction'
 import { PostDataType } from '../../Global/Actions/postActionTypes'
 import { RootStore } from '../../Global/Store'
 import { imageUpload } from '../../helpers/fetchData'
-
+import {RiArrowGoBackFill} from 'react-icons/ri'
+import {AiFillDelete} from 'react-icons/ai'
+import {HiOutlineSave} from 'react-icons/hi'
 
 
 interface Iform {
@@ -128,20 +129,20 @@ const AdminMode:React.FC<Iprops> = ({currentPost, changeEditMode}) => {
                         <div className="form-floating mb-3 d-flex">
                             <button 
                             onClick={() => changeEditMode(false)}
-                            className="btn btn-white" 
+                            className="btn bg-secondary text-white d-flex align-items-center" 
                             data-bs-dismiss="modal">
-                                <i className="far fa-arrow-alt-circle-left "></i>
+                                <RiArrowGoBackFill fontSize={20} className="me-2"/>
                                 Back
                             </button>
                             <button 
                             onClick={handleDelete}
                             type="button" 
-                            className="btn btn-red mx-2">
-                                <i className="fas fa-trash mx-2"></i>
+                            className="btn bg-red text-white mx-2 d-flex align-items-center">
+                                <AiFillDelete fontSize={20} className="me-2" />
                                 Remove
                             </button>
-                            <button type="submit" className="btn btn-orange">
-                                <i className="far fa-check-circle "></i>
+                            <button type="submit" className="btn text-white bg-success d-flex align-items-center">
+                                <HiOutlineSave fontSize={20} className="me-2" />
                                 Save
                             </button>
                         </div>

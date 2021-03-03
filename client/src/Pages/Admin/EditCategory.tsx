@@ -67,18 +67,18 @@ const EditCategory:React.FC<Iprops> = ({category , changeEditMode}) => {
                 <div className="form-floating mb-3 d-flex">
                     <button
                     onClick={() => changeEditMode(false)}
-                    className='btn-white p-2 d-flex align-items-center me-1'>
+                    className='btn bg-white rounded  d-flex align-items-center me-1'>
                         <i className="far fa-arrow-alt-circle-left "></i>
                         Back
                     </button>
                     <button
                     onClick={handleDelete}
-                    className='btn-red p-2 d-flex align-items-center ms-1'>
+                    className='btn bg-red text-white d-flex align-items-center ms-1'>
                         <i className="fas fa-trash mx-2"></i>
                         Delete
                     </button>
                     <button
-                    className='btn-teal p-2 d-flex align-items-center ms-1'>
+                    className='btn bg-teal text-white d-flex align-items-center ms-1'>
                         <i className="far fa-check-circle "></i>
                         Save
                     </button>
