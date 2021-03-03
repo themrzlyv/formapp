@@ -5,9 +5,13 @@
   "type": "module",
   "main": "server.js",
   "scripts": {
+    "start": "node app/server.js",
     "server": "nodemon app/server.js",
-    "client": "npm start --prefix client",
-    "dev": " concurrently \"npm run server\" \" npm run client \" "
+    "client": "cd client && npm run start",
+    "server-install": "npm install",
+    "client-install": "cd client && npm install",
+    "install-all": "concurrently \"npm run server-install\" \"npm run client-install\"",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "",
   "license": "MIT",
